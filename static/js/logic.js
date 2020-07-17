@@ -13,13 +13,14 @@ function createFeatures(earthquakeData) {
     // run onEachFeature
     var earthquakes = L.geoJSON(earthquakeData, {
         onEachFeature: function(feature, layer) {
-            layer.bindPopup("<h3>Magnitude: " + feature.properties.mag +"</h3><h3>Location: " + feature.properties.place + "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
+            layer.bindPopup("<h3>Magnitude: " + feature.properties.mag +"</h3><h3>Location: " + feature.properties.place + 
+             "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
         },
 
-        pointToLayer: function(feature, latling) {
+        pointToLayer: function(feature, latlng) {
             return new L.circle(latlng,
             {radius: getRadius(feature.properties.mag),
-             fillColor: getColor(feauture.properties.mag),
+             fillColor: getColor(feature.properties.mag),
              fillOpacity: .6,
              color: "#000",
              stroke: true,
@@ -35,16 +36,16 @@ function createFeatures(earthquakeData) {
 function createMap(earthquakes) {
     // Define streetmap and darkmap layers
     var outdoors = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/outdoors-v10/tiles/256/{z}/{x}/{y}?" +
-      "access_token=pk.eyJ1IjoidGJlcnRvbiIsImEiOiJjamRoanlkZXIwenp6MnFuOWVsbGo2cWhtIn0.zX40X0x50dpaN96rKQKarw." +
-      "T6YbdDixkOBWH_k9GbS8JQ");
+      "access_token=pk.eyJ1IjoiamhvbGxhbmRlcjk3IiwiYSI6ImNrY3FneHo5bjAxZG8yeXI4NGJtaWwzeTIifQ." +
+      "6hd57lslgkI5GkUAeUAXaA");
   
     var satellite = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/256/{z}/{x}/{y}?" +
-      "access_token=pk.eyJ1IjoidGJlcnRvbiIsImEiOiJjamRoanlkZXIwenp6MnFuOWVsbGo2cWhtIn0.zX40X0x50dpaN96rKQKarw." +
-      "T6YbdDixkOBWH_k9GbS8JQ");
+    "access_token=pk.eyJ1IjoiamhvbGxhbmRlcjk3IiwiYSI6ImNrY3FneHo5bjAxZG8yeXI4NGJtaWwzeTIifQ." +
+    "6hd57lslgkI5GkUAeUAXaA");
 
     var darkmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/dark-v9/tiles/256/{z}/{x}/{y}?" +
-      "access_token=pk.eyJ1IjoidGJlcnRvbiIsImEiOiJjamRoanlkZXIwenp6MnFuOWVsbGo2cWhtIn0.zX40X0x50dpaN96rKQKarw." +
-      "T6YbdDixkOBWH_k9GbS8JQ");
+    "access_token=pk.eyJ1IjoiamhvbGxhbmRlcjk3IiwiYSI6ImNrY3FneHo5bjAxZG8yeXI4NGJtaWwzeTIifQ." +
+    "6hd57lslgkI5GkUAeUAXaA");
 
     var baseMaps = {
         "Outdoors": outdoors,
@@ -73,11 +74,11 @@ function createMap(earthquakes) {
         .addTo(tectonicPlates);
     });
 
-    L.control.layers(baseMaps, overlayMaps, {
-        collapsed: false
-    }).addTo(myMap);
+        L.control.layers(baseMaps, overlayMaps, {
+            collapsed: false
+        }).addTo(myMap);
 
-    var legend = L.control({position: 'bottomleft'});
+      var legend = L.control({position: 'bottomleft'});
 
         legend.onAdd = function(myMap){
             var div = L.DomUtil.create('div', 'info legend'),
